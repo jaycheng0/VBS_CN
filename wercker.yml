@@ -1,0 +1,32 @@
+box: leipert/webapp-test
+# Build definition
+build:
+  # The steps that will be executed on build
+  steps:
+    # A step that executes `npm install` command
+    - npm-install
+#    - plasticine/bower-install
+    - script:
+        name: Bower
+        code: >-
+          export BOWER_STORAGE__CACHE="${WERCKER_CACHE_DIR}/wercker/bower" &&
+          mkdir -p $BOWER_STORAGE__CACHE &&
+          bower --allow-root install
+    - script:
+        name: Test and build vsb
+        code: gulp
+    - script:
+        name: Delete unneeded files
+        code: ls -A | grep -v dist | grep -v landing | grep -v config | xargs rm -rf
+
+deploy:
+  steps:
+    - script:
+        name: Run afterbuild scripts
+        code: bash config/afterBuild.sh
+    - leipert/git-push:
+        gh_oauth: $GH_TOKEN
+        gh_pages: true
+        basedir: landing
+        clean_removed_files: true
+        debug: true
