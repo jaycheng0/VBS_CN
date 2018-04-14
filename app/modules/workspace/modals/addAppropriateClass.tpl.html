@@ -2,12 +2,16 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title h4">Possible {{property.alias}} of {{subject.alias}}:</h1>
+                <!-- <h1 class="modal-title h4">Possible {{property.alias}} of {{subject.alias}}:</h1> -->
+                <h1 class="modal-title h4">可选的子类对象:</h1>
 
                 <div class="input-group" style="padding-top: 10px;width:100%">
 
-                    <input type="text"
+                    <!-- <input type="text"
                            class="form-control" placeholder="Filter available Classes"
+                           ng-model="search.$"> -->
+                        <input type="text"
+                           class="form-control" placeholder="过滤可选的子类"
                            ng-model="search.$">
 
                 </div>
@@ -37,7 +41,7 @@
             </div>
             <div class="modal-footer">
                 <div ng-if="selected" class="pull-left text-left">
-                    Do you want to create the class:<br>
+                    是否确定创建子类:<br>
                     {{subject.alias}}
                     <i class="fa fa-fw " ng-class="arrowClass"></i>
                     {{property.alias}}
@@ -45,8 +49,8 @@
                     <b>{{selected.$label}}</b>
                     ?
                 </div>
-                <button class="btn btn-primary" ng-click="ok()">Create Class</button>
-                <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+                <button class="btn btn-primary" ng-click="ok()">创建类</button>
+                <button class="btn btn-warning" ng-click="cancel()">取消</button>
             </div>
         </div>
     </div>

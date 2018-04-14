@@ -4,7 +4,7 @@
     <div class="subject-head">
         <p>
             <span class="pull-right icon-list">
-                <span class="mover"><i class="fa fa-fw fa-arrows"></i></span>
+                <span class="mover ui-draggable-handle"><i class="fa fa-fw fa-arrows"></i></span>
 
                 <!-- Button (Info-Sign) to show more infos of subject on hover -->
                 <popover-wrap ng-if="subject.$comment"
@@ -40,7 +40,7 @@
                 <i class="fa fa-edit pointer hidden-print" ng-click="vm.editAlias = !vm.editAlias"></i>
                 <!-- TODO: just show if necessary -->
                 <small>
-                    <small>({{ ::subject.uri | replaceURIsWithPrefixes}})</small>
+                    <small>({{ ::(subject.$zh_cn || subject.uri) | replaceURIsWithPrefixes}})</small>
                 </small>
             </b>
         </p>

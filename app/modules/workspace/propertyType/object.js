@@ -55,7 +55,8 @@
         $scope.$watch('property.linkTo', function (nv) {
             if (nv !== undefined && nv !== null) {
                 var target = angular.copy(nv.$id);
-                var connectionLabel = inverse ? property.alias + '⁻¹' : property.alias;
+                var connectionLabel = inverse ? property.alias + '⁻¹' : (property.$zh_cn ? property.$zh_cn :property.alias);
+
                 connectionService.connect(source, target, connectionLabel).then(setLastConnection);
             } else {
                 connectionService.disconnect(source);

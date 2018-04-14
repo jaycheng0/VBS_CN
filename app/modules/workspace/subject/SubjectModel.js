@@ -29,7 +29,8 @@
             function addProperty(data) {
                 data.$subject = {
                     uri: subject.uri,
-                    $id: subject.$id
+                    $id: subject.$id,
+                    $zh_cn: subject.$zh_cn
                 };
                 data.alias = createUniqueAlias(data.alias, data.$label, data.uri);
                 var newProperty = new Property(data);

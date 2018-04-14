@@ -31,7 +31,7 @@
     function SubjectInstanceCtrl($scope, $q, SubjectService, $rootScope) {
 
         var subject = $scope.subject;
-
+        // console.log(subject);
         var vm = this;
         vm.editAlias = false;
         //TODO:asdasd
@@ -60,12 +60,12 @@
 
         $q.when(subject.$loading).then(function () {
             vm.loading = false;
-            vm.refreshProperties('', 50);
+            vm.refreshProperties('', 10000);
         });
 
         $rootScope.$on('translateEverything', function () {
             if (vm.showAddProperty) {
-                vm.refreshProperties('', 50);
+                vm.refreshProperties('', 1000);
             }
         });
 

@@ -9,7 +9,8 @@
   "scripts": {
     "test": "gulp test",
     "precommit": "gulp jshint",
-    "prepush": "gulp test"
+    "prepush": "gulp test",
+    "start": "gulp develop"
   },
   "devDependencies": {
     "bower": "^1.5.3",

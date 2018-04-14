@@ -38,24 +38,21 @@
         };
     }
 
-    function monkeyPatchDropdownDirective($provide) {
+	function monkeyPatchDropdownDirective($provide) {
         $provide.decorator('bsDropdownDirective', function ($delegate) {
             var directive = $delegate[0];
+            var originalCompile = directive.compile;
 
-            var originalLink = directive.link;
+            directive.compile = function(tElem, tAttr) {
+                var originalLink = originalCompile(tElem, tAttr);
 
-            var linkFn = function postLink(scope, element, attr, transclusion) {
-                originalLink(scope, element, attr, transclusion);
-                scope.$watchCollection(attr.bsModel, function (newValue) {
-                    scope.bsModel = newValue;
-                }, true);
-            };
-
-            directive.compile = function () {
-
-                return linkFn;
-            };
-
+                return function(scope, element, attr, transclusion) {
+                    originalLink(scope, element, attr, transclusion);
+                    scope.$watchCollection(attr.bsModel, function (newValue) {
+                        scope.bsModel = newValue;
+                    }, true);
+                }
+            }
 
             return $delegate;
         });

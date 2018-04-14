@@ -26,7 +26,6 @@
     function PropertyInstanceCtrl($scope, SubjectService, connectionService, $modal) {
 
         var property = $scope.property;
-
         property.$addAppropriateClass = addAppropriateClass;
 
         connectionService.addMapping(property.$id, $scope.$id);

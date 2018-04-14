@@ -53,7 +53,7 @@
 
             if (_.isObject(mainSubject)) {
 
-                var promise = connectionService.connect('startpoint', mainSubject.$id, 'Start').then(function () {
+                var promise = connectionService.connect('startpoint', mainSubject.$id, '开始').then(function () {
                     currentDraw = null;
                     factory.mainSubject = mainSubject;
                     $rootScope.$emit('mainSubjectChanged');
@@ -170,6 +170,30 @@
 
         }
 
+        factory.getAvailablePackages = getAvailablePackages;
+
+        function getAvailablePackages(filter, limit) {
+            return translationCacheService.getFromCache('availablePackages').then(function (packages) {
+                return helperFunctions.filterByTokenStringWithLimit(packages, filter, limit);
+            });
+        }
+
+        factory.packageLoading = EndPointService.getAvailablePackages()
+            .catch(function (err) {
+                $log.error('An error occurred while loading available Packages: ', err);
+                var message = '<span> An error occured while loading available packages <br>' + _.escape(err) + '</span>';
+                MessageService.addMessage({message: message, icon: 'times-circle-o', 'class': 'danger'});
+            })
+            .then(function (classes) {
+                $log.debug('Packages loaded ', classes);
+                if (classes.length === 0) {
+                    var message = '<span>Your endpoint returned zero classes</span>';
+                    MessageService.addMessage({message: message, icon: 'times-circle-o', 'class': 'danger'});
+                }
+                return translationCacheService.putInCache('availablePackages', 'package', classes);
+            }).then(function () {
+                factory.packageLoading = false;
+            })
         function linkSubjectWithProperty(property) {
             var subjects = _.where(factory.subjects, {alias: property.linkTo});
             if (subjects.length > 0) {
@@ -196,11 +220,13 @@
             });
         }
 
-        function addSubjectByURI(uri) {
+        function addSubjectByURI(selectedSubject) {
             var data = {
-                uri: uri,
-                $classURIs: [uri]
+                uri: selectedSubject.uri,
+                $classURIs: [selectedSubject.uri],
+                $zh_cn : selectedSubject.$zh_cn
             };
+
             return addSubject(data);
         }
 
@@ -268,7 +294,7 @@
             return _.filter(factory.subjects, {alias: alias}).length === 0;
         }
 
-        factory.loading = EndPointService.getAvailableClasses()
+        factory.loading = EndPointService.getAvailableClasses('', '')
             .catch(function (err) {
                 $log.error('An error occurred while loading available Classes: ', err);
                 var message = '<span> An error occured while loading available classes <br>' + _.escape(err) + '</span>';
@@ -285,6 +311,25 @@
                 factory.loading = false;
             })
         ;
+        factory.refreshClasses = function (g_val) {
+            EndPointService.getAvailableClasses('', g_val)
+            .catch(function (err) {
+                $log.error('An error occurred while loading available Classes: ', err);
+                var message = '<span> An error occured while loading available classes <br>' + _.escape(err) + '</span>';
+                MessageService.addMessage({message: message, icon: 'times-circle-o', 'class': 'danger'});
+            })
+            .then(function (classes) {
+                $log.debug('Classes loaded ', classes);
+                if (classes.length === 0) {
+                    var message = '<span>Your endpoint returned zero classes</span>';
+                    MessageService.addMessage({message: message, icon: 'times-circle-o', 'class': 'danger'});
+                }
+                return translationCacheService.putInCache('availableClasses', 'class', classes);
+            }).then(function () {
+                factory.loading = false;
+            })
+        ;
+        }
 
         var c = 0;
 

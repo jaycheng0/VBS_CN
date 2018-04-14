@@ -31,7 +31,11 @@
                     var originalPropertyRange = angular.copy(range);
                     var promises = [];
                     originalPropertyRange.forEach(function (rangeItem) {
-                        promises.push(EndPointService.getSubAndEqClasses(rangeItem));
+                        // promises.push(EndPointService.getSubAndEqClasses(rangeItem));
+                        EndPointService.getSubAndEqClasses(rangeItem).then(function (data) {
+                            console.log('promises')
+                            promises.push(data);
+                        })
                     });
                     return $q.all(promises).then(function ($range) {
                         $range = _.uniq(_.flatten($range));

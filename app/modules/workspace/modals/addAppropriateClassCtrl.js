@@ -31,7 +31,8 @@
         };
         $scope.ok = function () {
             if ($scope.selected !== null) {
-                var newSubject = SubjectService.addSubjectByURI(angular.copy($scope.selected.uri));
+                // var newSubject = SubjectService.addSubjectByURI(angular.copy($scope.selected.uri));
+                var newSubject = SubjectService.addSubjectByURI(angular.copy($scope.selected));
                 property.hasFilter = true;
                 property.linkTo = newSubject;
             }
@@ -40,6 +41,8 @@
 
         $scope.cancel = $modalInstance.dismiss;
 
+        // $scope.loading = true;
+
         translationCacheService.getFromCache('availableClasses').then(function (classes) {
             $scope.availableSubjects = _(classes)
                 .filter(function (value) {
@@ -47,6 +50,26 @@
                 })
                 .value();
         });
+
+        // $scope.loadData = function() {
+        //     translationCacheService.getFromCache('availableClasses').then(function (classes) {
+        //         console.log('getFromCache')
+        //     $scope.availableSubjects = _(classes)
+        //         .filter(function (value) {
+        //             return _.contains(property.$range, value.uri);
+        //         })
+        //         .value();
+        //     if ($scope.availableSubjects == []) {
+        //         $scope.loadData();
+        //     } else {
+        //         $scope.loading = false;
+        //     }
+        // });
+        // }
+
+        // if ($scope.loading == true) {
+        //     $scope.loadData()
+        // }
 
 
     }

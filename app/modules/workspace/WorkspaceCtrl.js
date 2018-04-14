@@ -9,11 +9,13 @@
     angular.module('VSB.layout.workspace', ['VSB.modals', 'VSB.print', 'ngSanitize', 'VSB.select', 'VSB.config', 'VSB.endPointService', 'VSB.parser', 'VSB.arrowService', 'LocalForageModule'])
         .controller('WorkspaceCtrl', WorkspaceCtrl);
 
-    function WorkspaceCtrl(SubjectService, ArrowService, connectionService, zIndexService, $rootScope, $q) {
+    function WorkspaceCtrl(SubjectService, ArrowService, connectionService, zIndexService, $rootScope, $q, $scope, EndPointService) {
 
         var vm = this;
         vm.groups = [];
         vm.availableSubjectClasses = [];
+        vm.availablePackages= [];  
+        vm.selectedPackage = undefined;  
         vm.totalItems = 0;
         vm.matchingItems = 0;
         vm.selectedSubject = undefined;
@@ -27,9 +29,11 @@
         connectionService.resetService();
         zIndexService.reset();
 
-        function addSubject(uri) {
-            if (uri) { // If the selected option is undefined no subject will be added.
-                SubjectService.addSubjectByURI(uri);
+
+
+        function addSubject(selectedSubject) {
+            if (selectedSubject.uri) { // If the selected option is undefined no subject will be added.
+                SubjectService.addSubjectByURI(selectedSubject);
                 vm.selectedSubject = undefined;
             }
         }
@@ -39,6 +43,11 @@
         $q.when(SubjectService.loading).then(function () {
             vm.loading = false;
             vm.refreshClasses('');
+        });
+        vm.packageLoading = true;
+        $q.when(SubjectService.packageLoading).then(function () {
+            vm.packageLoading = false;
+            vm.refreshPackage('');
         });
 
         var startX = 0;
@@ -84,18 +93,31 @@
         /** Watchers **/
 
         vm.refreshClasses = function (search) {
-
-            return SubjectService.getAvailableClasses(search, 50)
+            return SubjectService.getAvailableClasses(search, 10000)
                 .then(function (data) {
                     var diff = _.xor(_.pluck(data.items, 'uri'),
                         _.pluck(vm.availableSubjectClasses, 'uri'));
-                    if (diff.length > 0) {
+                    if (diff.length > 0) { 
                         vm.availableSubjectClasses = data.items;
                         vm.totalItems = data.total;
-                        vm.matchingItems = data.matching;
+                        vm.matchingItems = data.matching;  
                     }
-                });
+                }); 
         };
+
+        // 拿到所有的包
+        vm.refreshPackage = function (search) {
+            return SubjectService.getAvailablePackages(search)
+            .then(function (data) {
+                var diff = _.xor(_.pluck(data.items, 'uri'),
+                    _.pluck(vm.availablePackages, 'uri'));
+                if (diff.length > 0) { 
+                    vm.availablePackages = data.items;
+                    vm.totalItems = data.total;
+                    vm.matchingItems = data.matching;  
+                }
+            }); 
+        }
 
         /**
          * Watches whether the Mainsubject changes
@@ -115,6 +137,22 @@
             vm.groups = SubjectService.groups;
         });
 
+        $scope.$watch('vm.selectedPackage', function (newVal, oldVal) {
+
+            vm.selectedSubject = undefined;
+            SubjectService.refreshClasses(newVal);
+            //等待请求结束
+            setTimeout(function(){
+
+            vm.refreshClasses('')
+            }, 1500)
+            
+        })
+        $scope.$watch('vm.selectedSubject', function (newVal, oldVal) {
+
+           console.log(newVal);
+            
+        })
         vm.updateMainSubject = function () {
             SubjectService.setMainSubjectWithAlias(vm.mainSubject.alias);
         };

@@ -19,6 +19,9 @@
                     type: type,
                     values: values
                 };
+                if (key == 'availableClasses') {
+                    delete translatedCache[key];
+                }
                 return getFromCache(key);
             },
             removeFromCache: function (key) {
@@ -29,26 +32,31 @@
 
         function getFromCache(key) {
 
-            if (translatedCache[key] !== undefined) {
+            if (translatedCache[key] !== undefined ) {
                 return $q.when(translatedCache[key]);
             } else if (untranslatedCache.hasOwnProperty(key) && !_.isEmpty(untranslatedCache[key])) {
                 return $translate.refresh().then(function () {
                     var promises = [];
 
                     _.forEach(untranslatedCache[key].values, function (c) {
+
                         var labelKey = c.uri + '.$label';
                         var commentKey = c.uri + '.$comment';
                         var p = $translate([labelKey, commentKey]).then(function (translations) {
                             var comment = (translations[commentKey] === commentKey) ? false : translations[commentKey];
-
                             if (untranslatedCache[key].type === 'class') {
                                 return translateClass(c, comment, translations[labelKey]);
                             } else {
                                 c.$comment = comment;
                                 c.$label = translations[labelKey];
+                                if (untranslatedCache[key].type === 'property') {
+                                    c.$zh_cn = c.$labels ? (c.$labels[1] ? c.$labels[1].value : c.$labels[0].value) : ''
+                                }
+                                // c.$zh_cn = 
                                 return c;
                             }
                         });
+
                         promises.push(p);
                     });
 
@@ -58,6 +66,7 @@
                         return x.$label.toLocaleLowerCase();
                     });
                     translatedCache[key] = data;
+
                     return $q.when(data);
                 });
             }
@@ -68,10 +77,12 @@
         }
 
         function translateClass(c, comment, label) {
+            // console.log(c)
             return {
                 uri: c.uri,
                 $comment: comment,
-                $label: label
+                $label: label,
+                $zh_cn: c.$labels ? c.$labels[0].value : ''
             };
         }
 

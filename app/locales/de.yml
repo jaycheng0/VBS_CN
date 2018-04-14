@@ -3,41 +3,41 @@ de:
     TITLE_SHORT: VSB
 
 # Navigation
-    BACK_TO_WORKSPACE: Arbeitsfläche
-    DOWNLOAD_JSON: Download JSON
-    LOAD_JSON: Lade JSON
-    KEEP_OPEN: Offen lassen
-    HELP: Hilfe
-    WORKSPACE: Arbeitsfläche
-    RUN_QUERY: Anfrage starten
-    PRINT_PREVIEW: Druckvorschau
-    RESET_WORKSPACE: Arbeitsfläche leeren
+    BACK_TO_WORKSPACE: 工作台
+    DOWNLOAD_JSON: 下载JSON文件
+    LOAD_JSON: 装载JSON文件
+    KEEP_OPEN: 展开
+    HELP: 帮助
+    WORKSPACE: 工作台
+    RUN_QUERY: 开始运行
+    PRINT_PREVIEW: 预览
+    RESET_WORKSPACE: 重置
 
 # Result-Page
-    RESULTS: Ergebnisse
-    QUERY_EXECUTOR: Anfrage-Designer
-    FORMAT: Format
-    LIMIT: Limit
-    OFFSET: Offset
-    ENDPOINT: Endpunkt
-    RESULTS_PREVIEW: Ergebnisvorschau
-    SPARQL_QUERY: SPARQL-Anfrage
-    JSON: JSON-Serialisierung
+    RESULTS: 结果
+    QUERY_EXECUTOR: 执行查询
+    FORMAT: 格式化
+    LIMIT: 限制
+    OFFSET: 偏移
+    ENDPOINT: 端点
+    RESULTS_PREVIEW: 预览结果
+    SPARQL_QUERY: spaql查询
+    JSON: JSON
 
 # Workspace
-    LIST_ALL: Liste alle
-    PICK_MAIN_SUBJECT: Hauptsubjekt wählen
-    CHOOSE_A_SUBJECT: Wählen Sie ein Subjekt
+    LIST_ALL: 所有列表
+    PICK_MAIN_SUBJECT: 选择对象
+    CHOOSE_A_SUBJECT: 选择一个对象
 
 # Klassen
-    CHOOSE_A_PROPERTY: Wählen Sie eine Eigenschaft
-    HIDE_SUBJECT: Zeige Subjekt
-    SHOW_SUBJECT: verstecke Subjekt
-    DELETE_SUBJECT: Lösche Subjekt
-    CONNECT_SUBJECT: Verbinde Subjekt mit anderem Subjekt
-    PROPERTY: Eigenschaft
-    CLASSES_LOADING: Klassen laden...
-    NO_CLASSES_FOUND: Keine Klasse gefunden
+    CHOOSE_A_PROPERTY: 选择一个属性
+    HIDE_SUBJECT: 隐藏对象
+    SHOW_SUBJECT: 显示对象
+    DELETE_SUBJECT: 删除对象
+    CONNECT_SUBJECT: 连接对象
+    PROPERTY: 属性
+    CLASSES_LOADING: 类加载...
+    NO_CLASSES_FOUND: 没有发现相关类
 
 # Eigenschaften
     ADD_FILTER: Filter hinzufügen
@@ -112,9 +112,8 @@ de:
       <p>Das war vorerst alles, was diese kleine Tour enthält.</p>
 
 # TODO:
-    BUTTON_LANG_DE: Deutsch
-    BUTTON_LANG_EN: Englisch
-    BUTTON_LANG_CN: 中文
+    BUTTON_LANG_DE: 英文
+    BUTTON_LANG_EN: 中文
 
 # Messages
     MINIMUM_SUBJECTS: Bitte wenigstens ein Subjekt zur Arbeitsfläche hinzufügen.

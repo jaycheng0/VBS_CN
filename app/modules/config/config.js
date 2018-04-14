@@ -23,16 +23,22 @@
                 xsd: 'http://www.w3.org/2001/XMLSchema#',
                 // Top prefixes from prefix.cc:
                 yago: 'http://yago-knowledge.org/resource/',
+                // rdf: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
                 rdf: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
                 foaf: 'http://xmlns.com/foaf/0.1/',
                 dbo: 'http://dbpedia.org/ontology/',
                 dbp: 'http://dbpedia.org/property/',
                 dc: 'http://purl.org/dc/elements/1.1/',
                 owl: 'http://www.w3.org/2002/07/owl#',
+                // rdfs: 'http://www.w3.org/2000/01/rdf-schema#',
                 rdfs: 'http://www.w3.org/2000/01/rdf-schema#',
                 ont: 'http://purl.org/net/ns/ontology-annot#',
                 skos: 'http://www.w3.org/2004/02/skos/core#',
-                geo: 'http://www.w3.org/2003/01/geo/wgs84_pos#'
+                geo: 'http://www.w3.org/2003/01/geo/wgs84_pos#',
+                // cim: 'http://iec.ch/TC57/2016/CIM-schema-cim17#',
+                // ns: 'http://nari.com/CDPSM/CIM_DEMO#>',
+                // ORACLE_SEM_HT_NS: 'http://oracle.com/semtech#DISABLE_NULL_EXPR_JOIN',
+                // ORACLE_SEM_FS_NS: 'http://oracle.com/semtech#TIMEOUT=300,DOP=8,ALLOW_DUP=T,BEST_EFFORT_QUERY=T,qid=234'
             },
             resultFormats: [
                 {
@@ -215,12 +221,25 @@
                 'FILTER ( !isBlank(?class) && !isBlank(?uri) && !isBlank(?range) ) ',
                 getSuperAndEqClasses: '<%uri%> (rdfs:subClassOf|(owl:equivalentClass|^owl:equivalentClass))* ?uri ' +
                 'FILTER ( !isBlank(?uri) )',
-                getSubAndEqClasses: '<%uri%> (^rdfs:subClassOf|(owl:equivalentClass|^owl:equivalentClass))* ?uri ' +
+                // getSubAndEqClasses: '<%uri%> (^rdfs:subClassOf|(owl:equivalentClass|^owl:equivalentClass))* ?uri ' +
+                // 'FILTER ( !isBlank(?uri) )',
+                getSubAndEqClasses: '?uri (^rdfs:subClassOf|(owl:equivalentClass|^owl:equivalentClass))* <%uri%>.' +
+                '?uri rdfs:label ?label.' +
+                'OPTIONAL { ?uri rdfs:comment ?comment }' +
+                'FILTER (LANG(?label) = "zh-cn")' + 
                 'FILTER ( !isBlank(?uri) )',
-                getAvailableClasses: '{?uri a rdfs:Class .} UNION {?uri a owl:Class .} .' +
+                
+
+
+
+
+                getAvailableClasses: 'Graph <%uri%>{' +
+                '{?uri a rdfs:Class .} UNION {?uri a owl:Class .} .' +
                 'FILTER ( !isBlank(?uri) )' +
                 'OPTIONAL { ?uri rdfs:label ?label . BIND(LANG(?label) AS ?label_loc) } .' +
-                'OPTIONAL { ?uri rdfs:comment ?comment . BIND(LANG(?comment) AS ?comment_loc)} ',
+                'OPTIONAL { ?uri rdfs:comment ?comment . BIND(LANG(?comment) AS ?comment_loc)} ' +
+                'FILTER (LANG(?label) = "zh-cn")' +
+                '}',
                 getPossibleRelation: '<%uri1%> (rdfs:subClassOf|(owl:equivalentClass|^owl:equivalentClass))* ?class1 .' +
                 '<%uri2%> (rdfs:subClassOf|(owl:equivalentClass|^owl:equivalentClass))* ?class2 .' +
                 '{ ' +

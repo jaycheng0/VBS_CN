@@ -21,7 +21,8 @@
     "localforage": "~1.2.10",
     "lodash": "~3.10.0",
     "moment": "~2.8.0",
-    "ui-router": "~0.2.13"
+    "ui-router": "~0.2.13",
+    "jquery-ui": "~1.11.3"
   },
   "overrides": {
     "angular-toggle-switch": {
