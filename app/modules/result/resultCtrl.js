@@ -33,17 +33,27 @@
         };
 
         $scope.openInNewTab = function () {
+            if ($scope.queryExecutor.resultFormat.name === 'HTML') {
+                loadTable($scope.queryExecutor.limit);
+                return;
+            }
             if ($scope.runQuery.$invalid) {
                 $scope.runQuery.$submitted = true;
                 return;
             }
+            console.log($scope.queryExecutor);
             var win = window.open(sparqljs.createQueryURL($scope.queryExecutor, $scope.translatedSPARQL), '_blank');
             win.focus();
         };
 
         function loadTable() {
             var queryExecutor = angular.copy($scope.queryExecutor);
-            queryExecutor.limit = 25;
+            if (arguments && arguments[0]) {
+                queryExecutor.limit = arguments[0];
+            } else {
+                queryExecutor.limit = 25;
+            }
+            
             delete queryExecutor.resultFormat;
             $http
                 .get(sparqljs.createQueryURL(queryExecutor, $scope.translatedSPARQL), {
@@ -94,6 +104,7 @@
         $scope.bound = $scope.bound();
 
         if ($scope.bound.type === 'uri') {
+            
 
             labelService.getLabel($scope.bound.value)
                 .then(function (label) {

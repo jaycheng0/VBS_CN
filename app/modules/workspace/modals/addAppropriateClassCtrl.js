@@ -8,8 +8,10 @@
     angular.module('VSB.modals', ['zenubu.ngStrap', 'VSB.subject.service'])
         .controller('addAppropriateClassCtrl', addAppropriateClassCtrl);
 
-    function addAppropriateClassCtrl($scope, property, SubjectService, subject, $modalInstance, translationCacheService) {
+    function addAppropriateClassCtrl($scope, property, SubjectService, subject, $modalInstance, translationCacheService, EndPointService) {
 
+console.log('!!!!!!')
+console.log(property)
         $scope.property = property;
 
         $scope.subject = subject;
@@ -41,36 +43,39 @@
 
         $scope.cancel = $modalInstance.dismiss;
 
-        // $scope.loading = true;
-
-        translationCacheService.getFromCache('availableClasses').then(function (classes) {
-            $scope.availableSubjects = _(classes)
-                .filter(function (value) {
-                    return _.contains(property.$range, value.uri);
-                })
-                .value();
-        });
-
-        // $scope.loadData = function() {
-        //     translationCacheService.getFromCache('availableClasses').then(function (classes) {
-        //         console.log('getFromCache')
+        // translationCacheService.getFromCache('availableClasses').then(function (classes) {
+        //     console.log('addAppropriateClassCtrl');
+        //     console.log(classes);
         //     $scope.availableSubjects = _(classes)
         //         .filter(function (value) {
-        //             return _.contains(property.$range, value.uri);
+        //             // return _.contains(property.$range, value.uri);
+        //             return _.contains($scope.property.range, value.uri);
         //         })
         //         .value();
-        //     if ($scope.availableSubjects == []) {
-        //         $scope.loadData();
-        //     } else {
-        //         $scope.loading = false;
-        //     }
+        //         console.log($scope.availableSubjects);
         // });
-        // }
 
-        // if ($scope.loading == true) {
-        //     $scope.loadData()
-        // }
-
+        EndPointService.getSubAndEqClasses($scope.property.range).then(function (data) {
+            var ary = data;
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].indexOf('IdentifiedObject') > -1) {
+                    ary.splice(i, 1);
+                    break;
+                }
+            }
+            translationCacheService.getFromCache('availableClasses').then(function (classes) {
+                console.log('addAppropriateClassCtrl');
+                console.log(classes);
+                $scope.availableSubjects = _(classes)
+                    .filter(function (value) {
+                        // return _.contains(property.$range, value.uri);
+                        return _.contains(data, value.uri);
+                    })
+                    .value();
+                    console.log($scope.availableSubjects);
+            });
+        // $scope.availableSubjects = data;
+        })
 
     }
 

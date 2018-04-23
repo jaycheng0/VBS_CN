@@ -74,7 +74,7 @@
             <!-- Button to add an available property to the actual list of selected properties, See @js/controller/property.js
             -->
             <div ng-if="vm.loading" class="btn btn-success btn-sm">
-                <i class="fa fa-spinner fa-spin"></i> {{ 'PROPERTIES_LOADING' | translate }}
+                <i class="fa fa-spinner fa-spin"></i> {{ '加载中' | translate }}
             </div>
             <div ng-if="!vm.loading">
                 <div ng-if="vm.totalItems === 0" class="btn btn-success btn-sm">
@@ -91,7 +91,7 @@
                         <ui-select-choices
                                 repeat="item in vm.$availableProperties"
                                 group-by="'type'"
-                                refresh="vm.refreshProperties($select.search,50)"
+                                refresh="vm.refreshProperties($select.search,100000)"
                                 refresh-delay="0"
                                 total-items="{{vm.totalItems}}"
                                 matching-items="{{vm.matchingItems}}"

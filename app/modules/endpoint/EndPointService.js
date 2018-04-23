@@ -139,12 +139,16 @@
         };
 
         factory.getAvailableClasses = function (uri, queryStr) {
-            if (!queryStr) {
-                queryStr = 'http://shareplatform.com/MetaModel/Topology'
-
+            var query = '';
+            if (!queryStr || queryStr != 'undefined') {
+                query = globalConfig.endPointQueries.getAvailableClasses.replace('%uri%', queryStr)
+                // queryStr = 'http://shareplatform.com/MetaModel/Topology';
+            } else {
+                query = globalConfig.endPointQueries.getAllAvailableClasses
             }
-            // console.log(globalConfig.endPointQueries.getAvailableClasses.replace('<%uri%>', queryStr));
+            console.log('hahahaha', query)
             // if (!store.hasOwnProperty('classes')) {
+                console.log(globalConfig.endPointQueries.getAvailableClasses.replace('%uri%', queryStr))
             if (true) {
 
                 store.addMap({
@@ -156,7 +160,7 @@
                             $comments: [{id: '?comment_loc', value: '?comment'}]
                         }
                     ],
-                    from: globalConfig.endPointQueries.getAvailableClasses.replace('%uri%', queryStr)
+                    from: query  
                 });
             }
 
@@ -221,7 +225,9 @@
                     name: key + uri,
                     template: [
                         {
-                            id: '?uri'
+                            id: '?uri',
+                            // $labels: [{id: '?label', value: '?label'}],
+                            // $comments: [{id: '?label', value: '?comment'}]
                         }
                     ],
                     from: query
@@ -231,7 +237,8 @@
             var flow = store[key + uri].find();
             return flow.list()
                 .then(function (docs) {
-                    console.log(docs)
+                    console.log('getOtherClasses');
+
                     console.log(_.pluck(_.pluck(docs, 'val'), 'id'))
                     return _.pluck(_.pluck(docs, 'val'), 'id');
                 }, function (err) {
@@ -239,6 +246,25 @@
                     $log.error('An error occurred: ', err);
                     return [];
                 });
+
+                // return flow.list()
+                // .then(function (classCollection) {
+                //     console.log(classCollection)
+                //     var promises = [];
+                //     classCollection = _.pluck(classCollection, 'val');
+                //     if (uri) {
+                //         classCollection = _.filter(classCollection, {id: cleanURI(uri)});
+                //     }
+                //     classCollection.forEach(function (doc) {
+                //         doc.uri = cleanURI(doc.id);
+                //         promises.push(fillTranslationStorage(doc.uri, doc.$labels, doc.$comments));
+                //     });
+                //     console.log('i am promises')
+                //     console.log(promises)
+                //     return $q.all(promises).then(function () {
+                //         return classCollection;
+                //     });
+                // });
 
         };
 
@@ -273,7 +299,6 @@
             var flow = store[storeKey + uri].find();
             return flow.list()
                 .then(function (propertyCollection) {
-                    // console.log(propertyCollection);
                     propertyCollection = _.pluck(propertyCollection, 'val');
                     if (filterURI) {
                         propertyCollection = _.filter(propertyCollection, {id: cleanURI(filterURI)});
@@ -342,6 +367,7 @@
             return flow.list()
                 .then(function (propertyCollection) {
                     propertyCollection = _(propertyCollection).pluck('val').pluck('id').value();
+                    console.log(propertyCollection);
                     return propertyCollection;
                 }, function (err) {
                     $log.error('An error occurred: ', err);
