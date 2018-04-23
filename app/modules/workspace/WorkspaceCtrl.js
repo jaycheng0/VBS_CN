@@ -142,9 +142,10 @@
         $scope.$watch('vm.selectedPackage', function (newVal, oldVal) {
 
             vm.selectedSubject = undefined;
-            SubjectService.refreshClasses(newVal).then(function (){
-                vm.refreshClasses('')
-            });
+            SubjectService.refreshClasses(newVal)
+            // .then(function (){
+            //     vm.refreshClasses('')
+            // });
             //等待请求结束
             setTimeout(function(){
 
