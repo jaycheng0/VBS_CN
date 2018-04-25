@@ -35,7 +35,7 @@
                 ont: 'http://purl.org/net/ns/ontology-annot#',
                 skos: 'http://www.w3.org/2004/02/skos/core#',
                 geo: 'http://www.w3.org/2003/01/geo/wgs84_pos#',
-                //cim: 'http://iec.ch/TC57/2016/CIM-schema-cim17#',
+                cim: 'http://iec.ch/TC57/2016/CIM-schema-cim17#',
                 // ns: 'http://nari.com/CDPSM/CIM_DEMO#>',
                 // ORACLE_SEM_HT_NS: 'http://oracle.com/semtech#DISABLE_NULL_EXPR_JOIN',
                 // ORACLE_SEM_FS_NS: 'http://oracle.com/semtech#TIMEOUT=300,DOP=8,ALLOW_DUP=T,BEST_EFFORT_QUERY=T,qid=234'
