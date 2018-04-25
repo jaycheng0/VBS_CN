@@ -1,7 +1,7 @@
 <!-- Result area -->
 <div id="result">
     <h1 class="h3">{{ 'RESULTS' | translate }}</h1>
-
+   
     <div class="panel panel-default" id="query-executor">
         <div class="panel-heading">
             <h2 class="h4 panel-title">{{'QUERY_EXECUTOR' | translate}}</h2>
@@ -65,10 +65,15 @@
                 <label for="limit">&nbsp;</label><br>
                 <button type="submit" class="btn btn-default">{{'RUN_QUERY' | translate}}</button>
             </div>
+
             </form>
 
         </div>
     </div>
+   <!--  <div class="panel panel-default" ng-app="getDataApp">
+        <label for="limit">&nbsp;</label><br>
+        <button  class="btn btn-default" ng-click="getData()" >点击运行</button>
+    </div> -->
     <div bs-tabs>
         <div ng-repeat="tab in tabs"
              title="<b>{{ tab.title | translate }}</b>"
@@ -77,6 +82,7 @@
             <div class="panel panel-default">
                 <div class="panel-body" ng-include="tab.template">
                 </div>
+                <button  class="btn btn-default" ng-click="getData()" >点击查询</button>
             </div>
         </div>
     </div>

@@ -227,12 +227,12 @@
                     from: query
                 });
             }
-            console.log(query)
+            //console.log(query)
             var flow = store[key + uri].find();
             return flow.list()
                 .then(function (docs) {
-                    console.log(docs)
-                    console.log(_.pluck(_.pluck(docs, 'val'), 'id'))
+                    //console.log(docs)
+                    //console.log(_.pluck(_.pluck(docs, 'val'), 'id'))
                     return _.pluck(_.pluck(docs, 'val'), 'id');
                 }, function (err) {
 
@@ -243,12 +243,12 @@
         };
 
         factory.getSuperAndEqClasses = function (uri) {
-            console.log('getSuperAndEqClasses')
+            //console.log('getSuperAndEqClasses')
             return getOtherClasses(cleanURI(uri), globalConfig.endPointQueries.getSuperAndEqClasses.replace('%uri%', cleanURI(uri)), 'SuperAndEqClasses');
         };
 
         factory.getSubAndEqClasses = function (uri) {
-            console.log('getSubAndEqClasses')
+            //console.log('getSubAndEqClasses')
             return getOtherClasses(cleanURI(uri), globalConfig.endPointQueries.getSubAndEqClasses.replace('%uri%', cleanURI(uri)), 'SubAndEqClasses');
         };
 
@@ -269,7 +269,7 @@
                     from: query
                 });
             }
-            console.log(query)
+            //console.log(query)
             var flow = store[storeKey + uri].find();
             return flow.list()
                 .then(function (propertyCollection) {
@@ -306,13 +306,13 @@
         };
 
         factory.getDirectProperties = function (uri, filterURI) {
-            console.log('getDirectProperties')
+            //console.log('getDirectProperties')
             return getProperties(cleanURI(uri), globalConfig.endPointQueries.getDirectProperties.replace('%uri%', uri), false, filterURI);
         };
 
         factory.getInverseProperties = function (uri, filterURI) {
 
-            console.log('getInverseProperties')
+            //console.log('getInverseProperties')
             return getProperties(cleanURI(uri), globalConfig.endPointQueries.getInverseProperties.replace('%uri%', uri), true, filterURI);
         };
 
@@ -338,7 +338,7 @@
                 });
             }
             var flow = store[storeKey].find();
-            console.log('getPossibleRelations')
+            //console.log('getPossibleRelations')
             return flow.list()
                 .then(function (propertyCollection) {
                     propertyCollection = _(propertyCollection).pluck('val').pluck('id').value();

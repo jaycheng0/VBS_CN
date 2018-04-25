@@ -12,6 +12,8 @@
         var currentMessage;
 
         vm.translate = function () {
+            console.log("translate");
+            console.log("SubjectService.mainSubject:"+SubjectService.mainSubject)
             if (SubjectService.mainSubject === null) {
                 MessageService.dismiss(currentMessage);
                 currentMessage = MessageService.addMessage({

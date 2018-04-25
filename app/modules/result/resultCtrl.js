@@ -1,6 +1,5 @@
 (function () {
     'use strict';
-
     angular.module('VSB.layout.result', ['VSB.config', 'SPARQLJS'])
         .directive('bindingCell', bindingCell)
         .factory('labelService', labelService)
@@ -21,10 +20,9 @@
 
         $scope.translatedJSON = JSON.json;
 
+        var fastSqaql="PREFIX ORACLE_SEM_HT_NS:<http://oracle.com/semtech#DISABLE_NULL_EXPR_JOIN> ";//加速查询语句
         var query = sparqljs.parse(JSON.sparql.toString());
-        $scope.translatedSPARQL = sparqljs.stringify(query);
-
-
+        $scope.translatedSPARQL =fastSqaql+ sparqljs.stringify(query);
         $scope.queryExecutor = {
             endpoint: globalConfig.resultURL,
             limit: 100,
@@ -40,13 +38,19 @@
             var win = window.open(sparqljs.createQueryURL($scope.queryExecutor, $scope.translatedSPARQL), '_blank');
             win.focus();
         };
+        $scope.getData =function () {
+            loadTable();
+        };
 
         function loadTable() {
             var queryExecutor = angular.copy($scope.queryExecutor);
+            console.log($scope.queryExecutor);
             queryExecutor.limit = 25;
             delete queryExecutor.resultFormat;
+            var querySpaql=$("#sparql-query").val();//读取可能更改的sparql-query 内容
+            //var fastSqaql="PREFIX ORACLE_SEM_HT_NS:<http://oracle.com/semtech#DISABLE_NULL_EXPR_JOIN> ";
             $http
-                .get(sparqljs.createQueryURL(queryExecutor, $scope.translatedSPARQL), {
+                .get(sparqljs.createQueryURL(queryExecutor, fastSqaql+querySpaql), {
                     headers: {'Accept': 'application/sparql-results+json'}
                 })
                 .then(function (data) {
@@ -54,10 +58,17 @@
                     $scope.resultColumns = _.values(_.get(data, 'data.head.vars', {}));
                     $scope.resultRows = _.get(data, 'data.results.bindings', []);
                 });
+            /*$http
+                .get(sparqljs.createQueryURL(queryExecutor, $scope.translatedSPARQL), {
+                    headers: {'Accept': 'application/sparql-results+json'}
+                })
+                .then(function (data) {
+                    $log.debug(data.data);
+                    $scope.resultColumns = _.values(_.get(data, 'data.head.vars', {}));
+                    $scope.resultRows = _.get(data, 'data.results.bindings', []);
+                });*/
         }
-
-        loadTable();
-
+        //loadTable();
         $scope.tabs = [
 
 
@@ -136,6 +147,5 @@
             }
         };
     }
-
-
 })();
+
