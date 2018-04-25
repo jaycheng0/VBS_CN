@@ -46,7 +46,7 @@
             query = generator.stringify(query);
             query = $filter('replaceURIsWithPrefixes')(query, true);
             query = $filter('beautifySPARQL')(query);
-            console.log(query);
+            //console.log(query);
             return query;
         }
 
