@@ -21,7 +21,7 @@ en:
     OFFSET: 偏移
     ENDPOINT: 端点
     RESULTS_PREVIEW: 预览结果
-    SPARQL_QUERY: spaql查询
+    SPARQL_QUERY: 语义查询
     JSON: JSON
 
 # Workspace
@@ -94,7 +94,7 @@ en:
     CLASSES_FOUND_X_MORE: "Showing {{x}} of {{matching}} found classes.<br>Total classes: {{total}}"
     CLASSES_FOUND_NO_SEARCH: Showing {{matching}} of {{total}} classes.<br>请输入搜索词.
     PROPERTIES_FOUND_ZERO: 未找到属性.<br>请尝试其他搜索字词.
-    PROPERTIES_FOUND_X: "Found {{matching}} properties.<br>Total properties: {{total}}"
+    PROPERTIES_FOUND_X: "找到 {{matching}} 个属性.<br>总共: {{total}}"
     PROPERTIES_FOUND_X_MORE: "Showing {{x}} of {{matching}} found properties.<br>Total properties: {{total}}"
     PROPERTIES_FOUND_NO_SEARCH: Showing {{matching}} of {{total}} properties,<br>请输入搜索词.
 

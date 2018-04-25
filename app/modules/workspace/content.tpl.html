@@ -21,14 +21,17 @@
 
     <!-- See @js/controllers/addSubject.js -->
     <div class="addSubjectBox form-group pull-right">
-        <div class="input-group" ng-if="vm.totalItems > 0">
+        <div ng-if="vm.loading" class="loading">
+            <i class="fa fa-spinner fa-spin"></i> {{ 'CLASSES_LOADING' | translate }}
+        </div>
+        <div class="input-group" ng-if="!vm.loading" >
             <ui-select ng-model="vm.selectedPackage" append-to-body="true">
                 <ui-select-match  placeholder="选择一个分类">  
                         {{$select.selected.$labels[0].value}} 
                     </ui-select-match>  
                 <!-- IMPORTANT: it has to be item in 'repeat="item in...',
                         as ui-select defines it internally.	Anything else wont work!-->
-                <ui-select-choices repeat="item.uri as item in vm.availablePackages" refresh="vm.refreshPackages($select.search, 50)">
+                <ui-select-choices repeat="item.uri as item in vm.availablePackages" refresh="vm.refreshPackages($select.search, 10000)">
                     <ui-select-choices-row-inner></ui-select-choices-row-inner>
                 </ui-select-choices>
             </ui-select>
@@ -37,10 +40,10 @@
             <i class="fa fa-spinner fa-spin"></i> {{ 'CLASSES_LOADING' | translate }}
         </div>
         <div ng-if="!vm.loading">
-            <div ng-if="vm.totalItems === 0" class="loading">
+            <!-- <div ng-if="vm.totalItems === 0" class="loading">
                 <i class="fa fa-exclamation-triangle"></i> {{ 'NO_CLASSES_FOUND' | translate }}
-            </div>
-            <div class="input-group" ng-if="vm.totalItems > 0">
+            </div> -->
+            <div class="input-group" >
                 <!-- UI-SELECT Directive, taken from here: https://github.com/angular-ui/ui-select -->
                 <ui-select ng-model="vm.selectedSubject" append-to-body="true">
                     <ui-select-match allow-clear="true" placeholder="{{ 'CHOOSE_A_SUBJECT' | translate }}">
@@ -48,7 +51,7 @@
                     </ui-select-match>
                     <!-- IMPORTANT: it has to be item in 'repeat="item in...',
                     as ui-select defines it internally.	Anything else wont work!-->
-                    <ui-select-choices repeat="item in vm.availableSubjectClasses" refresh="vm.refreshClasses($select.search, 50)"
+                    <ui-select-choices repeat="item in vm.availableSubjectClasses" refresh="vm.refreshClasses($select.search, 10000)"
                         refresh-delay="0" total-items="{{vm.totalItems}}" matching-items="{{vm.matchingItems}}" footer-zero="CLASSES_FOUND_ZERO"
                         footer-no-search="CLASSES_FOUND_NO_SEARCH" footer-found="CLASSES_FOUND_X">
                         <ui-select-choices-row-inner></ui-select-choices-row-inner>

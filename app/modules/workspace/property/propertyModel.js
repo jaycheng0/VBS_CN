@@ -9,6 +9,9 @@
 
     function PropertyConstructor(EndPointService, $log, $translate, $q, connectionService, $rootScope) {
         return function (data) {
+
+            console.log("@@@@@@@@")
+            console.log(data)
             var property = {
                 uri: null,
                 type: null,
@@ -20,13 +23,16 @@
                 optional: false,
                 arithmetic: null,
                 compare: null,
-                $subject: {}
+                $subject: {},
+                range: data.$range[0] ? data.$range[0] : '',
             };
             _.extend(property, data);
             property.$id = connectionService.generateID();
             connectionService.addPropertyToSubject(property.$subject.$id, property.$id);
 
             var getSubClassesOfRange = function (range) {
+                console.log('getSubClassesOfRange')
+                console.log(range);
                 if (!_.isEmpty(range)) {
                     var originalPropertyRange = angular.copy(range);
                     var promises = [];
@@ -49,11 +55,17 @@
             };
 
             if (property.$copied) {
+
+                                // console.log(data);
                 if (!_.startsWith(property.uri, '$$')) {
                     EndPointService.getPropertyDetails(property.$subject.uri, property)
                         .then(function (data) {
                             data = data[0];
+                            console.log('ssssssssss')
+                            console.log(data)
                             if (!_.isEmpty(data)) {
+                                console.log('####');
+                                console.log(data);
                                 property.$range = data.$range;
                                 if (!property.typeCasted) {
                                     property.type = data.type;
@@ -68,6 +80,8 @@
                         });
                 }
             } else {
+                console.log('####');
+                console.log(property)
                 getSubClassesOfRange(property.$range);
             }
 

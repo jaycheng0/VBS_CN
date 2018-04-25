@@ -223,7 +223,7 @@
                 'FILTER ( !isBlank(?uri) )',
                 // getSubAndEqClasses: '<%uri%> (^rdfs:subClassOf|(owl:equivalentClass|^owl:equivalentClass))* ?uri ' +
                 // 'FILTER ( !isBlank(?uri) )',
-                getSubAndEqClasses: '?uri (^rdfs:subClassOf|(owl:equivalentClass|^owl:equivalentClass))* <%uri%>.' +
+                getSubAndEqClasses: '?uri (rdfs:subClassOf|(owl:equivalentClass|^owl:equivalentClass))* <%uri%>.' +
                 '?uri rdfs:label ?label.' +
                 'OPTIONAL { ?uri rdfs:comment ?comment }' +
                 'FILTER (LANG(?label) = "zh-cn")' + 
@@ -231,7 +231,12 @@
                 
 
 
-
+                getAllAvailableClasses: 
+                '{?uri a rdfs:Class .} UNION {?uri a owl:Class .} .' +
+                'FILTER ( !isBlank(?uri) )' +
+                'OPTIONAL { ?uri rdfs:label ?label . BIND(LANG(?label) AS ?label_loc) } .' +
+                'OPTIONAL { ?uri rdfs:comment ?comment . BIND(LANG(?comment) AS ?comment_loc)} ' +
+                'FILTER (LANG(?label) = "zh-cn")',
 
                 getAvailableClasses: 'Graph <%uri%>{' +
                 '{?uri a rdfs:Class .} UNION {?uri a owl:Class .} .' +

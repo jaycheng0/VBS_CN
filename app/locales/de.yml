@@ -21,7 +21,7 @@ de:
     OFFSET: 偏移
     ENDPOINT: 端点
     RESULTS_PREVIEW: 预览结果
-    SPARQL_QUERY: spaql查询
+    SPARQL_QUERY: 语义查询
     JSON: JSON
 
 # Workspace

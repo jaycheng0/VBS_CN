@@ -28,8 +28,8 @@
             .then(function (classes) {
                 $log.debug('Packages loaded ', classes);
                 if (classes.length === 0) {
-                    var message = '<span>Your endpoint returned zero classes</span>';
-                    MessageService.addMessage({message: message, icon: 'times-circle-o', 'class': 'danger'});
+                    // var message = '<span>Your endpoint returned zero classes</span>';
+                    // MessageService.addMessage({message: message, icon: 'times-circle-o', 'class': 'danger'});
                 }
                 return translationCacheService.putInCache('availablePackages', 'package', classes);
             }).then(function () {

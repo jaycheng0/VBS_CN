@@ -53,6 +53,7 @@
 
         function searchRelation() {
             subject.$searchRelation = true;
+            console.log('searchRelation')
             SubjectService.searchRelation(subject);
         }
 
